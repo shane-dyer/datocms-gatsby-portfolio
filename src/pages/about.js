@@ -4,20 +4,20 @@ import { HelmetDatoCms } from "gatsby-source-datocms";
 import Img from "gatsby-image";
 import Layout from "../components/layout";
 
-const About = ({ data: { about } }) => (
+const About = ({ data }) => (
   <Layout>
     <article className="sheet">
-      <HelmetDatoCms seo={about.seoMetaTags} />
+      <HelmetDatoCms seo={data.datoCmsAbout.seoMetaTags} />
       <div className="sheet__inner">
-        <h1 className="sheet__title">{about.title}</h1>
-        <p className="sheet__lead">{about.subtitle}</p>
+        <h1 className="sheet__title">{data.datoCmsAbout.title}</h1>
+        <p className="sheet__lead">{data.datoCmsAbout.subtitle}</p>
         <div className="sheet__gallery">
-          <Img fluid={about.photo.fluid} />
+          <Img fluid={data.datoCmsAbout.photo.fluid} />
         </div>
         <div
           className="sheet__body"
           dangerouslySetInnerHTML={{
-            __html: about.bioNode.childMarkdownRemark.html
+            __html: data.datoCmsAbout.bioNode.childMarkdownRemark.html
           }}
         />
       </div>
@@ -29,7 +29,7 @@ export default About;
 
 export const query = graphql`
   query AboutQuery {
-    about: datoCmsAbout {
+    datoCmsAbout {
       seoMetaTags {
         ...GatsbyDatoCmsSeoMetaTags
       }

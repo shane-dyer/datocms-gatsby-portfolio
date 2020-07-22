@@ -26,11 +26,7 @@ const TemplateWrapper = ({ children }) => {
             seoMetaTags {
               ...GatsbyDatoCmsSeoMetaTags
             }
-            introTextNode {
-              childMarkdownRemark {
-                html
-              }
-            }
+            introText
             copyright
           }
           allDatoCmsSocialProfile(sort: { fields: [position], order: ASC }) {
@@ -57,8 +53,7 @@ const TemplateWrapper = ({ children }) => {
               <div
                 className="sidebar__intro"
                 dangerouslySetInnerHTML={{
-                  __html:
-                    data.datoCmsHome.introTextNode.childMarkdownRemark.html
+                  __html: data.datoCmsHome.introText
                 }}
               />
               <ul className="sidebar__menu">

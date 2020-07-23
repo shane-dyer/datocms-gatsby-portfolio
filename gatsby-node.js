@@ -1,8 +1,8 @@
-const path = require(`path`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+const path = require(`path`);
+const { createFilePath } = require(`gatsby-source-filesystem`);
 
 exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
 
   return new Promise((resolve, reject) => {
     graphql(`
@@ -14,18 +14,46 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+        allDatoCmsGeneric {
+          edges {
+            node {
+              slug
+              treeParent {
+                slug
+              }
+            }
+          }
+        }
       }
-    `).then(result => {
-      result.data.allDatoCmsWork.edges.map(({ node: work }) => {
+    `).then(({ data }) => {
+      // Work
+      data.allDatoCmsWork.edges.map(({ node }) => {
+        const pathname = `works/${node.slug}`;
         createPage({
-          path: `works/${work.slug}`,
+          path: pathname,
           component: path.resolve(`./src/templates/work.js`),
           context: {
-            slug: work.slug,
-          },
-        })
-      })
-      resolve()
-    })
-  })
-}
+            pathname,
+            slug: node.slug
+          }
+        });
+      });
+
+      // Generic
+      data.allDatoCmsGeneric.edges.map(({ node }) => {
+        const parentSlug = node.treeParent ? node.treeParent.slug : "";
+        const pathname = `${parentSlug}/${node.slug}`;
+        createPage({
+          path: pathname,
+          component: path.resolve(`./src/templates/generic.js`),
+          context: {
+            pathname,
+            slug: node.slug
+          }
+        });
+      });
+
+      resolve();
+    });
+  });
+};

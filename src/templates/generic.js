@@ -22,15 +22,6 @@ export default ({ data }) => (
           className="sheet__lead"
           dangerouslySetInnerHTML={{ __html: data.datoCmsGeneric.intro }}
         />
-        {data.datoCmsGeneric.slices &&
-          data.datoCmsGeneric.slices.map(child => (
-            <div key={child.id}>
-              <hr />
-              <h5>{child.title}</h5>
-              <p>{child.text}</p>
-              {child.image && <img src={child.image.url} />}
-            </div>
-          ))}
       </div>
     </article>
   </Layout>
@@ -44,24 +35,6 @@ export const query = graphql`
       treeChildren {
         title
         slug
-      }
-      slices {
-        ... on DatoCmsHeroCard {
-          id
-          title
-          text
-          image {
-            url
-          }
-        }
-        ... on DatoCmsPromoBanner {
-          id
-          title
-          text
-          image {
-            url
-          }
-        }
       }
     }
   }

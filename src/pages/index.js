@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link, graphql } from 'gatsby'
-import Masonry from 'react-masonry-component'
-import Img from 'gatsby-image'
-import Layout from "../components/layout"
+import React from "react";
+import { Link, graphql } from "gatsby";
+import Masonry from "react-masonry-component";
+import Img from "gatsby-image";
+import Layout from "../components/layout";
 
 const IndexPage = ({ data }) => (
   <Layout>
@@ -24,14 +24,43 @@ const IndexPage = ({ data }) => (
           </figure>
         </div>
       ))}
+      {data.datoCmsHome.slices &&
+        data.datoCmsHome.slices.map(child => (
+          <div key={child.id}>
+            <hr />
+            <h5>{child.title}</h5>
+            <p>{child.text}</p>
+            {child.image && <img src={child.image.url} />}
+          </div>
+        ))}
     </Masonry>
   </Layout>
-)
+);
 
-export default IndexPage
+export default IndexPage;
 
 export const query = graphql`
   query IndexQuery {
+    datoCmsHome {
+      slices {
+        ... on DatoCmsHeroCard {
+          id
+          title
+          text
+          image {
+            url
+          }
+        }
+        ... on DatoCmsPromoBanner {
+          id
+          title
+          text
+          image {
+            url
+          }
+        }
+      }
+    }
     allDatoCmsWork(sort: { fields: [position], order: ASC }) {
       edges {
         node {
@@ -48,4 +77,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

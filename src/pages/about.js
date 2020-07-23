@@ -20,6 +20,18 @@ const About = ({ data }) => (
             __html: data.datoCmsAbout.bioNode.childMarkdownRemark.html
           }}
         />
+        {data.datoCmsAbout.staff ? (
+          <>
+            <h3>Staff:</h3>
+            <ul>
+              {data.datoCmsAbout.staff.map(child => (
+                <li key={child.name}>
+                  {child.name}, {child.role}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
       </div>
     </article>
   </Layout>
@@ -44,6 +56,10 @@ export const query = graphql`
         childMarkdownRemark {
           html
         }
+      }
+      staff {
+        name
+        role
       }
     }
   }

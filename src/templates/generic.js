@@ -12,7 +12,7 @@ export default ({ data }) => (
           <ul>
             {data.datoCmsGeneric.treeChildren.map(child => (
               <li key={child.slug}>
-                <Link to={`${child.slug}`}>{child.title}</Link>
+                <Link to={child.slug}>{child.title}</Link>
               </li>
             ))}
           </ul>

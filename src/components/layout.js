@@ -44,7 +44,12 @@ const TemplateWrapper = ({ children }) => {
           <HelmetDatoCms
             favicon={data.datoCmsSite.faviconMetaTags}
             seo={data.datoCmsHome.seoMetaTags}
-          />
+          >
+            <link
+              href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+              rel="stylesheet"
+            />
+          </HelmetDatoCms>
           <div className="container__sidebar">
             <div className="sidebar">
               <h6 className="sidebar__title">

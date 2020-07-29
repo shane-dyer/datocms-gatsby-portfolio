@@ -3,9 +3,15 @@ import { Link, graphql } from "gatsby";
 import Masonry from "react-masonry-component";
 import Img from "gatsby-image";
 import Layout from "../components/layout";
+import PromoBanner from "../slices/PromoBanner";
+import ThreeUP from "../slices/ThreeUP";
+
+const sliceMap = {
+  DatoCmsSlicePromoBanner: PromoBanner,
+  DatoCmsSliceThreeup: ThreeUP
+};
 
 const IndexPage = ({ data }) => {
-  console.log(data.datoCmsHome.slices);
   return (
     <Layout>
       <Masonry className="showcase">
@@ -27,6 +33,13 @@ const IndexPage = ({ data }) => {
           </div>
         ))}
       </Masonry>
+      {data.datoCmsHome.slices.map(slice => {
+        const SliceComponent = sliceMap[slice.__typename];
+        if (SliceComponent) {
+          return <SliceComponent key={slice.id} {...slice} />;
+        }
+        return null;
+      })}
     </Layout>
   );
 };
@@ -38,6 +51,7 @@ export const query = graphql`
     datoCmsHome {
       slices {
         ... on DatoCmsSliceThreeup {
+          id
           title
           items {
             title
@@ -48,10 +62,32 @@ export const query = graphql`
           }
         }
         ... on DatoCmsSlicePromoBanner {
+          id
           title
           description
           image {
             url
+          }
+          backgroundColour {
+            hex
+          }
+          buttons {
+            id
+            title
+            link {
+              ... on DatoCmsHome {
+                slug
+              }
+              ... on DatoCmsAbout {
+                slug
+              }
+              ... on DatoCmsWork {
+                slug
+              }
+              ... on DatoCmsGeneric {
+                slug
+              }
+            }
           }
         }
       }
